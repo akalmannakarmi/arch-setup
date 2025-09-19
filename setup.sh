@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-# ===== VARIABLES =====
-DOTFILES_REPO="https://github.com/akalmannakarmi/arch-setup.git"
-USERNAME="$USER"
-
 # ===== UPDATE SYSTEM =====
 echo "==> Updating system..."
 sudo pacman -Syu --noconfirm
@@ -52,7 +48,7 @@ vt = 1
 
 [default_session]
 command = "tuigreet --time --cmd Hyprland"
-user = '"$USERNAME"'
+user = '"$USER"'
 EOF'
 
 sudo systemctl enable greetd
@@ -65,17 +61,14 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 fi
 
 echo "==> Setting zsh as default shell..."
-chsh -s "$(which zsh)" "$USERNAME"
+chsh -s "$(which zsh)" "$USER"
 
 # ===== DOTFILES =====
-echo "==> Cloning dotfiles..."
-if [ ! -d "$HOME/arch-setup" ]; then
-    git clone "$DOTFILES_REPO" "$HOME/arch-setup"
+echo "==> Copying dotfiles..."
+if [ -d "./dotfiles" ]; then
+    cp -r ./dotfiles/. "$HOME/"
 else
-    echo "Dotfiles already exist, skipping clone."
+    echo "No dotfiles folder found, skipping."
 fi
-echo "==> Copying dotfiles to home..."
-cp -r "$HOME/arch-setup/dotfiles/." "$HOME/"
-
 
 echo "==> Postinstall complete! Reboot to start greetd + Hyprland."
