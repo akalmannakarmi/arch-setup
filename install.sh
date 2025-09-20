@@ -60,7 +60,7 @@ chmod +x /mnt/usr/local/bin/snapshot.sh
 
 # --- Setup cron ---
 mkdir -p /mnt/etc/cron.d
-cp ./deps/cron.btrfs /etc/cron.d/btrfs-snapshots
+cp ./deps/cron.btrfs /mnt/etc/cron.d/btrfs-snapshots
 
 arch-chroot /mnt /bin/bash <<EOF
 set -euo pipefail
