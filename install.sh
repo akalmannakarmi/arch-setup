@@ -70,7 +70,7 @@ if [[ "$FS" == "btrfs" ]]; then
   mount -o noatime,compress=zstd,subvol=@ "$ROOT_PART" /mnt
   mkdir -p /mnt/{home,.snapshots}
   mount -o noatime,compress=zstd,subvol=@home "$ROOT_PART" /mnt/home
-  mount -o noatime,compress=zstd,subvol=@snapshots "$ROOT_PART"/.snapshots
+  mount -o noatime,compress=zstd,subvol=@snapshots "$ROOT_PART"/mnt/.snapshots
 else
   mkfs.ext4 -F "$ROOT_PART"
   mount "$ROOT_PART" /mnt
