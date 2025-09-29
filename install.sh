@@ -62,6 +62,7 @@ done
 
 echo "Entering installed arch Environment"
 arch-chroot /mnt /bin/bash <<EOF
+su $USERNAME
 cd /arch-setup
 ./setup.sh
 EOF
