@@ -25,7 +25,8 @@ cp -r . "/mnt/arch-setup"
 
 echo "Entering installed arch Environment"
 arch-chroot /mnt /bin/bash <<'EOF'
-cd /arch-setup && ./scripts/base-chroot.sh
+cd /arch-setup
+./scripts/base-chroot.sh
 EOF
 
 echo "Unmounting partitions"
@@ -53,5 +54,6 @@ done
 
 echo "Entering installed arch Environment"
 arch-chroot /mnt /bin/bash <<'EOF'
-cd /arch-setup && ./setup.sh
+cd /arch-setup
+./setup.sh
 EOF

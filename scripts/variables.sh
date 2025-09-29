@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CONF_FILE="$HOME/.mysetup.conf"
+CONF_FILE="./setup.conf"
 
 # --- Default values ---
 DEFAULT_DISK="sda"
