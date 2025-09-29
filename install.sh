@@ -14,7 +14,7 @@ source ./scripts/partitions.sh
 
 # --- Base install ---
 echo "Installing basic linux and packages"
-pacstrap /mnt base linux linux-firmware nano networkmanager btrfs-progs sudo grub os-prober efibootmgr --noconfirm
+pacstrap /mnt base linux linux-firmware nano networkmanager btrfs-progs sudo grub os-prober efibootmgr base-devel git --noconfirm
 genfstab -U /mnt > /mnt/etc/fstab
 
 # btrfs auto snapshots

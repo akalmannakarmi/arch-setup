@@ -5,10 +5,6 @@ set -e
 echo "==> Updating system..."
 sudo pacman -Syu --noconfirm
 
-# ===== BASE DEVEL (needed for yay) =====
-echo "==> Installing base-devel..."
-sudo pacman -S --needed --noconfirm base-devel git
-
 # ===== INSTALL yay =====
 echo "==> Installing yay (AUR helper)..."
 if ! command -v yay &>/dev/null; then
@@ -22,19 +18,14 @@ else
 fi
 
 # ===== HYPRLAND + ESSENTIALS =====
-echo "==> Installing Hyprland + essentials..."
-yay -S --noconfirm hyprland-git waybar wofi kitty polkit-gnome greetd greetd-tuigreet
-
-# ===== BROWSERS =====
-echo "==> Installing browsers..."
-yay -S --noconfirm firefox chromium opera-git
-
-# ===== SYSTEM TOOLS =====
-echo "==> Installing useful tools..."
-yay -S --noconfirm \
-    neovim unzip p7zip htop btop fastfetch \
-    networkmanager wget curl \
-    papirus-icon-theme noto-fonts noto-fonts-emoji
+echo "==> Installing Hyprland + Essentials + Browsers + Tools ....."
+yay -S --noconfirm hyprland-git waybar wofi kitty polkit-gnome greetd greetd-tuigreet \
+    pavucontrol blueman network-manager-applet gvfs thunar xdg-desktop-portal-hyprland\
+    swaylock-effects swayidle hyprpaper mako zsh\
+    neovim unzip p7zip htop btop fastfetch wget curl\
+    lxappearance-gtk3 kvantum-qt6 catppuccin-gtk-theme tokyo-night-gtk-theme papirus-icon-theme\
+    noto-fonts noto-fonts-emoji candy-icons ttf-jetbrains-mono-nerd ttf-font-awesome \
+    firefox chromium opera-git
 
 # ===== ENABLE NETWORKMANAGER =====
 echo "==> Enabling NetworkManager..."
@@ -53,15 +44,8 @@ EOF'
 
 sudo systemctl enable greetd
 
-# ===== INSTALL & SETUP OH-MY-ZSH =====
-echo "==> Installing zsh + oh-my-zsh..."
-sudo pacman -S --noconfirm zsh
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
-
-echo "==> Setting zsh as default shell..."
-chsh -s "$(which zsh)" "$USER"
+# ===== SETUP OH-MY-ZSH =====
+source ./scripts/setup-omzsh
 
 # ===== DOTFILES =====
 echo "==> Copying dotfiles..."

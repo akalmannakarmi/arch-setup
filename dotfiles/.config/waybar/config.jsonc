@@ -1,0 +1,26 @@
+{
+  "layer": "top",
+  "modules-left": ["workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["cpu", "memory", "network", "pulseaudio", "battery"],
+  "clock": {
+    "format": " {:%H:%M}   {:%d-%m-%Y}"
+  },
+  "cpu": {
+    "format": " {usage}%"
+  },
+  "memory": {
+    "format": " {used} / {total}"
+  },
+  "network": {
+    "format-wifi": " {essid}",
+    "format-ethernet": " {ifname}",
+    "format-disconnected": ""
+  },
+  "pulseaudio": {
+    "format": " {volume}%"
+  },
+  "battery": {
+    "format": " {capacity}%"
+  }
+}
