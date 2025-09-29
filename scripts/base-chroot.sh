@@ -19,7 +19,16 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "root:$ROOT_PASS" | chpasswd
 useradd -m -G wheel -s /bin/bash "$USERNAME"
 echo "$USERNAME:$USER_PASS" | chpasswd
-echo '%wheel ALL=(ALL:ALL) ALL' >> /etc/sudoers
+
+# Give wheel group sudo rights
+if ! grep -q "%wheel ALL=(ALL:ALL) ALL" /etc/sudoers; then
+    echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers
+fi
+
+# Allow passwordless sudo for wheel group
+if ! grep -q "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" /etc/sudoers; then
+    echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+fi
 
 # Enable networking
 systemctl enable NetworkManager
