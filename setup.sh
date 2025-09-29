@@ -27,11 +27,11 @@ yay -S --noconfirm hyprland-git waybar wofi kitty polkit-gnome greetd greetd-tui
 
 # ===== BROWSERS =====
 echo "==> Installing browsers..."
-sudo pacman -S --noconfirm firefox chromium
+yay -S --noconfirm firefox chromium opera-git
 
 # ===== SYSTEM TOOLS =====
 echo "==> Installing useful tools..."
-sudo pacman -S --noconfirm \
+yay -S --noconfirm \
     neovim unzip p7zip htop btop fastfetch \
     networkmanager wget curl \
     papirus-icon-theme noto-fonts noto-fonts-emoji
@@ -69,6 +69,17 @@ if [ -d "./dotfiles" ]; then
     cp -r ./dotfiles/. "$HOME/"
 else
     echo "No dotfiles folder found, skipping."
+fi
+
+# btrfs auto snapshots
+if [[ "$FS" == "btrfs" ]]; then
+  # --- Install snapshot script ---
+  mkdir -p /mnt/usr/local/bin
+  cp ./deps/snapshot.sh /mnt/usr/local/bin/snapshot.sh
+
+  # --- Setup cron ---
+  mkdir -p /mnt/etc/cron.d
+  cp ./deps/cron.btrfs /mnt/etc/cron.d/btrfs-snapshots
 fi
 
 echo "==> Postinstall complete! Reboot to start greetd + Hyprland."

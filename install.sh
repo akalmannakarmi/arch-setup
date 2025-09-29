@@ -8,24 +8,50 @@ echo "=== Arch Linux Automated Installer ==="
 source ./scripts/variables.sh
 
 # Format and Mount partitions
+echo "Formating Partitions"
 source ./scripts/partitions.sh
 
 
 # --- Base install ---
+echo "Installing basic linux and packages"
 pacstrap /mnt base linux linux-firmware nano networkmanager btrfs-progs sudo grub os-prober efibootmgr --noconfirm
 genfstab -U /mnt > /mnt/etc/fstab
 
 
-# # --- Install snapshot script ---
-# mkdir -p /mnt/usr/local/bin
-# cp ./deps/snapshot.sh /mnt/usr/local/bin/snapshot.sh
-# chmod +x /mnt/usr/local/bin/snapshot.sh
+echo "Copying Over the setup script"
+mkdir -p "/mnt/arch-setup"
+cp -r . "/mnt/arch-setup"
 
-# # --- Setup cron ---
-# mkdir -p /mnt/etc/cron.d
-# cp ./deps/cron.btrfs /mnt/etc/cron.d/btrfs-snapshots
 
-arch-chroot /mnt /bin/bash ./scripts/base-chroot.sh
+echo "Entering installed arch Environment"
+arch-chroot /mnt /bin/bash <<'EOF'
+cd /arch-setup && ./scripts/base-chroot.sh
+EOF
 
-mkdir -p "/mnt/home/$USERNAME/arch-setup"
-cp -r . "/mnt/home/$USERNAME/arch-setup"
+echo "Unmounting partitions"
+umount -R /mnt
+swapoff -a
+
+
+while true; do
+    read -rp "Would you like to setup hyperland? [y/n]: " CONFIRM
+    case "$CONFIRM" in
+        [Yy]|[Yy][Ee][Ss])
+            echo "✅ Proceeding with arch hyperland setup..."
+            break
+            ;;
+        [Nn]|[Nn][Oo])
+            echo "Reboot to use your arch installation"
+            exit 1
+            ;;
+        *)
+            echo "Please answer 'y' or 'n'."
+            ;;
+    esac
+done
+
+
+echo "Entering installed arch Environment"
+arch-chroot /mnt /bin/bash <<'EOF'
+cd /arch-setup && ./setup.sh
+EOF
