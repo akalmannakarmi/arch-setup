@@ -71,15 +71,4 @@ else
     echo "No dotfiles folder found, skipping."
 fi
 
-# btrfs auto snapshots
-if [[ "$FS" == "btrfs" ]]; then
-  # --- Install snapshot script ---
-  mkdir -p /mnt/usr/local/bin
-  cp ./deps/snapshot.sh /mnt/usr/local/bin/snapshot.sh
-
-  # --- Setup cron ---
-  mkdir -p /mnt/etc/cron.d
-  cp ./deps/cron.btrfs /mnt/etc/cron.d/btrfs-snapshots
-fi
-
 echo "==> Postinstall complete! Reboot to start greetd + Hyprland."

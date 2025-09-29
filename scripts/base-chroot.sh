@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Load config
+source ./scripts/variables.sh
+
 # Hostname
 echo "$HOSTNAME" > /etc/hostname
 
