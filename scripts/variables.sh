@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 CONF_FILE="./setup.conf"
+SKIP_CONFIRM=${SKIP_CONFIRM:-false}
 
 # --- Default values ---
-DEFAULT_DISK="sda"
+DEFAULT_DISK="/dev/sda"
 DEFAULT_BOOT_PART="/dev/sda1"
 DEFAULT_ROOT_PART="/dev/sda3"
 DEFAULT_HOME_PART=""
@@ -91,35 +92,37 @@ EOF
     echo "Config saved to $CONF_FILE"
 fi
 
-# --- preview before confirming ---
-echo
-echo "======= Configuration Summary ======="
-echo "Disk           : $DISK"
-echo "Boot partition : $BOOT_PART"
-echo "Root partition : $ROOT_PART"
-echo "Home partition : $HOME_PART"
-echo "Swap partition : $SWAP_PART"
-echo "Boot mode      : $BOOT_MODE"
-echo "Hostname       : $HOSTNAME"
-echo "Username       : $USERNAME"
-echo "Filesystem     : $FS"
-echo "Snapshots      : max=$SNAP_MAX dir=$SNAP_DIR time=$SNAP_TIME"
-echo "======================================"
-echo
+if [[ "$SKIP_CONFIRM" != true ]]; then
+    # --- preview before confirming ---
+    echo
+    echo "======= Configuration Summary ======="
+    echo "Disk           : $DISK"
+    echo "Boot partition : $BOOT_PART"
+    echo "Root partition : $ROOT_PART"
+    echo "Home partition : $HOME_PART"
+    echo "Swap partition : $SWAP_PART"
+    echo "Boot mode      : $BOOT_MODE"
+    echo "Hostname       : $HOSTNAME"
+    echo "Username       : $USERNAME"
+    echo "Filesystem     : $FS"
+    echo "Snapshots      : max=$SNAP_MAX dir=$SNAP_DIR time=$SNAP_TIME"
+    echo "======================================"
+    echo
 
-while true; do
-    read -rp "Are these correct? [y/n]: " CONFIRM
-    case "$CONFIRM" in
-        [Yy]|[Yy][Ee][Ss])
-            echo "✅ Proceeding with the confirmed configuration..."
-            break
-            ;;
-        [Nn]|[Nn][Oo])
-            echo "Aborted. You can edit $CONF_FILE or rerun the script."
-            exit 1
-            ;;
-        *)
-            echo "Please answer 'y' or 'n'."
-            ;;
-    esac
-done
+    while true; do
+        read -rp "Are these correct? [y/n]: " CONFIRM
+        case "$CONFIRM" in
+            [Yy]|[Yy][Ee][Ss])
+                echo "✅ Proceeding with the confirmed configuration..."
+                break
+                ;;
+            [Nn]|[Nn][Oo])
+                echo "Aborted. You can edit $CONF_FILE or rerun the script."
+                exit 1
+                ;;
+            *)
+                echo "Please answer 'y' or 'n'."
+                ;;
+        esac
+    done
+fi

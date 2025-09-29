@@ -2,6 +2,7 @@
 set -euo pipefail
 
 # Load config
+SKIP_CONFIRM=true
 source ./scripts/variables.sh
 
 # Hostname
