@@ -39,11 +39,6 @@ cd /arch-setup
 ./scripts/base-chroot.sh
 EOF
 
-echo "Unmounting partitions"
-umount -R /mnt
-swapoff -a
-
-
 while true; do
     read -rp "Would you like to setup hyperland? [y/n]: " CONFIRM
     case "$CONFIRM" in
@@ -52,6 +47,9 @@ while true; do
             break
             ;;
         [Nn]|[Nn][Oo])
+            echo "Unmounting partitions"
+            umount -R /mnt
+            swapoff -a
             echo "Reboot to use your arch installation"
             exit 1
             ;;
@@ -67,3 +65,8 @@ arch-chroot /mnt /bin/bash <<EOF
 cd /arch-setup
 ./setup.sh
 EOF
+
+
+echo "Unmounting partitions"
+umount -R /mnt
+swapoff -a
