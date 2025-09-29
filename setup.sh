@@ -45,7 +45,7 @@ EOF'
 sudo systemctl enable greetd
 
 # ===== SETUP OH-MY-ZSH =====
-source ./scripts/setup-omzsh
+source ./scripts/setup-omz.sh
 
 # ===== DOTFILES =====
 echo "==> Backing up existing config..."
