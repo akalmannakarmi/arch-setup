@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
 
-git clone --depth 1 https://github.com/HyDE-Project/HyDE ~/HyDE
-cd ~/HyDE/Scripts
-./install.sh
+source ./deps/hyde-install.sh
 
 # # ===== Install yay and install packages =====
 # source ./deps/install-pkg.sh
