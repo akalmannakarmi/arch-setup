@@ -2,15 +2,18 @@
 set -e
 
 # ===== Install yay and install packages =====
-source ./scripts/install-pkg.sh
+source ./deps/install-pkg.sh
 
 # ===== ENABLE Services =====
-source ./scripts/enable-services.sh
+source ./deps/enable-services.sh
 
 # ===== SETUP OH-MY-ZSH =====
-source ./scripts/setup-omz.sh
+source ./deps/setup-omz.sh
 
 # ===== DOTFILES =====
-source ./scripts/copy-dotfiles.sh
+source ./deps/copy-dotfiles.sh
+
+# ===== DOTFILES =====
+source ./deps/copy-scipts.sh
 
 echo "==> Setup complete! Reboot to start greetd + Hyprland."

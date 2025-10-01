@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Load config
 SKIP_CONFIRM=true
-source ./scripts/variables.sh
+source ./deps/variables.sh
 
 # Hostname
 echo "$HOSTNAME" > /etc/hostname

@@ -5,11 +5,11 @@ IFS=$'\n\t'
 echo "=== Arch Linux Automated Installer ==="
 
 # Load config
-source ./scripts/variables.sh
+source ./deps/variables.sh
 
 # Format and Mount partitions
 echo "Formating Partitions"
-source ./scripts/partitions.sh
+source ./deps/partitions.sh
 
 
 # --- Base install ---
@@ -38,7 +38,7 @@ cp -r . "/mnt/arch-setup"
 echo "Entering installed arch Environment"
 arch-chroot /mnt /bin/bash <<EOF
 cd /arch-setup
-./scripts/base-chroot.sh
+./deps/base-chroot.sh
 EOF
 
 while true; do

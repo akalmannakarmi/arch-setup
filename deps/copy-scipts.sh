@@ -1,0 +1,1 @@
+cp -r scripts/* "$HOME/.local/share/bin"
