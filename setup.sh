@@ -20,16 +20,19 @@ fi
 # ===== HYPRLAND + ESSENTIALS =====
 echo "==> Installing Hyprland + Essentials + Browsers + Tools ....."
 yay -S --noconfirm hyprland-git waybar wofi kitty polkit-gnome greetd greetd-tuigreet \
-    pavucontrol blueman network-manager-applet gvfs thunar xdg-desktop-portal-hyprland\
-    swaylock-effects swayidle hyprpaper mako zsh\
-    neovim unzip p7zip htop btop fastfetch wget curl\
-    lxappearance-gtk3 kvantum-qt6 catppuccin-gtk-theme tokyo-night-gtk-theme papirus-icon-theme\
+    pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber bluez bluez-utils \
+    pavucontrol blueman network-manager-applet gvfs thunar xdg-desktop-portal-hyprland \
+    swaylock-effects swayidle hyprpaper mako zsh \
+    lxappearance-gtk3 kvantum-qt6 catppuccin-gtk-theme tokyo-night-gtk-theme papirus-icon-theme \
     noto-fonts noto-fonts-emoji candy-icons ttf-jetbrains-mono-nerd ttf-font-awesome \
+    neovim unzip p7zip htop btop fastfetch wget curl \
     firefox chromium opera-git
 
 # ===== ENABLE NETWORKMANAGER =====
 echo "==> Enabling NetworkManager..."
-sudo systemctl enable NetworkManager
+systemctl enable NetworkManager
+systemctl enable bluetooth
+systemctl enable systemd-timesyncd
 
 # ===== CONFIGURE GREETD =====
 echo "==> Configuring greetd..."
