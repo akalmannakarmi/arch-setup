@@ -30,9 +30,9 @@ yay -S --noconfirm hyprland-git waybar wofi kitty polkit-gnome greetd greetd-tui
 
 # ===== ENABLE NETWORKMANAGER =====
 echo "==> Enabling NetworkManager..."
-systemctl enable NetworkManager
-systemctl enable bluetooth
-systemctl enable systemd-timesyncd
+sudo systemctl enable NetworkManager
+sudo systemctl enable bluetooth
+sudo systemctl enable systemd-timesyncd
 
 # ===== CONFIGURE GREETD =====
 echo "==> Configuring greetd..."
