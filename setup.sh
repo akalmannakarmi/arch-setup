@@ -14,6 +14,6 @@ source ./deps/setup-omz.sh
 source ./deps/copy-dotfiles.sh
 
 # ===== DOTFILES =====
-source ./deps/copy-scipts.sh
+source ./deps/copy-scripts.sh
 
 echo "==> Setup complete! Reboot to start greetd + Hyprland."
