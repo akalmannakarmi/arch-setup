@@ -15,7 +15,7 @@ source ./scripts/partitions.sh
 # --- Base install ---
 echo "Installing basic linux and packages"
 pacstrap /mnt base linux linux-firmware nano \
-    networkmanager iwd dhclient\
+    broadcom-wl networkmanager iwd dhclient\
     btrfs-progs sudo grub os-prober efibootmgr base-devel git --noconfirm
 genfstab -U /mnt > /mnt/etc/fstab
 
