@@ -1,19 +1,23 @@
 #!/bin/bash
 set -e
 
-# ===== Install yay and install packages =====
-source ./deps/install-pkg.sh
+git clone --depth 1 https://github.com/HyDE-Project/HyDE ~/HyDE
+cd ~/HyDE/Scripts
+./install.sh
 
-# ===== ENABLE Services =====
-source ./deps/enable-services.sh
+# # ===== Install yay and install packages =====
+# source ./deps/install-pkg.sh
 
-# ===== SETUP OH-MY-ZSH =====
-source ./deps/setup-omz.sh
+# # ===== ENABLE Services =====
+# source ./deps/enable-services.sh
 
-# ===== DOTFILES =====
-source ./deps/copy-dotfiles.sh
+# # ===== SETUP OH-MY-ZSH =====
+# source ./deps/setup-omz.sh
 
-# ===== DOTFILES =====
-source ./deps/copy-scripts.sh
+# # ===== DOTFILES =====
+# source ./deps/copy-dotfiles.sh
 
-echo "==> Setup complete! Reboot to start greetd + Hyprland."
+# # ===== DOTFILES =====
+# source ./deps/copy-scripts.sh
+
+echo "==> Setup complete!"
