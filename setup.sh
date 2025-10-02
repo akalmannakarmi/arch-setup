@@ -1,7 +1,12 @@
 #!/bin/bash
 set -e
 
+scriptDir="$HOME/.local/lib/hyde"
+
 source ./deps/hyde-install.sh
+
+"${scriptDir}/wallbashtoggle.sh" 2
+"${scriptDir}/theme.switch.sh" -s "Tokyo Night"
 
 # # ===== Install yay and install packages =====
 # source ./deps/install-pkg.sh
