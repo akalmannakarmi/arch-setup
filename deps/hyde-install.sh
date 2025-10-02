@@ -1,4 +1,4 @@
-REPO_URL="https://github.com/akalmannankarmi/HyDE-personalized.git"
+REPO_URL="https://github.com/akalmannakarmi/HyDE-personalized.git"
 INSTALL_DIR="$HOME/HyDE"
 
 # Check if repo already exists
