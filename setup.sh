@@ -1,26 +1,26 @@
 #!/bin/bash
 set -e
 
-scriptDir="$HOME/.local/lib/hyde"
-
+# ===== Install personalized HyDE project =====
 source ./deps/hyde-install.sh
 
+
+# ===== Customize Hyde project =====
+scriptDir="$HOME/.local/lib/hyde"
 "${scriptDir}/wallbashtoggle.sh" 2
 "${scriptDir}/theme.switch.sh" -s "Tokyo Night"
 
-# # ===== Install yay and install packages =====
-# source ./deps/install-pkg.sh
 
-# # ===== ENABLE Services =====
-# source ./deps/enable-services.sh
+# ===== Setup Docker =====
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER
 
-# # ===== SETUP OH-MY-ZSH =====
-# source ./deps/setup-omz.sh
 
-# # ===== DOTFILES =====
-# source ./deps/copy-dotfiles.sh
+# ===== Install and Setup Conda =====
+source ./deps/install-conda.sh
 
-# # ===== DOTFILES =====
+
+# # ===== Copy custom Scripts =====
 # source ./deps/copy-scripts.sh
 
 echo "==> Setup complete!"
