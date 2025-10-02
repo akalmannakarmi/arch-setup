@@ -3,9 +3,10 @@ INSTALL_DIR="$HOME/HyDE"
 
 # Check if repo already exists
 if [ -d "$INSTALL_DIR/.git" ]; then
-    echo "Repository already exists. Pulling latest changes..."
+    echo "Repository already exists. Fetching latest commit only..."
     cd "$INSTALL_DIR" || exit 1
-    git pull
+    git fetch --depth 1 origin master
+    git reset --hard origin/master
 else
     echo "Cloning repository..."
     git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
