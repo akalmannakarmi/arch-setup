@@ -11,8 +11,8 @@ fi
 
 # ===== Customize Hyde project =====
 scriptDir="$HOME/.local/lib/hyde"
-"${scriptDir}/wallbashtoggle.sh" 2
-"${scriptDir}/theme.switch.sh" -s "Tokyo Night"
+source "${scriptDir}/wallbashtoggle.sh" 2
+source "${scriptDir}/theme.switch.sh" -s "Tokyo Night"
 
 
 # ===== Install and Setup Conda =====
