@@ -34,7 +34,6 @@ if [[ "$FS" == "btrfs" ]]; then
         mkfs.btrfs -f "$HOME_PART"
         mount "$HOME_PART" /mnt/home
     fi
-fi
 
 else
     mkfs.ext4 -F "$ROOT_PART"
