@@ -9,3 +9,6 @@ scriptDir="$HOME/.local/lib/hyde"
 
 # ===== Install and Setup Conda =====
 source /home/$USER/deps/install-conda.sh
+
+read -n1 -r -p "Post Setup Complete! Press any key to exit"
+echo
