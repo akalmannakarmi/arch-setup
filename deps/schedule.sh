@@ -16,9 +16,9 @@ fi
 mkdir -p "$(dirname "$AUTOSTART")"
 touch "$AUTOSTART"
 
-if ! grep -Fxq "kitty --hold $SCRIPT_PATH" "$AUTOSTART"; then
+if ! grep -Fxq "exec-once=kitty --hold $SCRIPT_PATH" "$AUTOSTART"; then
     echo "Adding post-setup script to Hyprland autostart..."
-    echo "kitty --hold $SCRIPT_PATH" >> "$AUTOSTART"
+    echo "exec-once=kitty --hold $SCRIPT_PATH" >> "$AUTOSTART"
 else
     echo "Post-setup script already in autostart"
 fi
