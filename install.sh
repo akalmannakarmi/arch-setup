@@ -32,7 +32,7 @@ fi
 
 echo "Copying Over the setup script"
 mkdir -p "/mnt/arch-setup"
-cp -r . "/mnt/arch-setup"
+cp -r . "/mnt/home/$USERNAME/arch-setup"
 
 
 echo "Entering installed arch Environment"
