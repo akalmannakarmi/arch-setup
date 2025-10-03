@@ -37,7 +37,7 @@ cp -r . "/mnt/home/$USERNAME/arch-setup"
 
 echo "Entering installed arch Environment"
 arch-chroot /mnt /bin/bash <<EOF
-cd /arch-setup
+cd /home/$USERNAME/arch-setup
 ./deps/base-chroot.sh
 EOF
 
