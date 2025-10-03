@@ -5,28 +5,36 @@
 if [[ "$FS" == "btrfs" ]]; then
     mkfs.btrfs -f "$ROOT_PART"
 
-    # Initial mount
+    # Initial mount to top-level
     mount -o subvolid=5 "$ROOT_PART" /mnt
 
-    # Create subvolumes
-    btrfs subvolume create /mnt/@ || true
-    btrfs subvolume create /mnt/@snapshots || true
+    # Create base subvolumes
+    btrfs subvolume create /mnt/@
+    btrfs subvolume create /mnt/@snapshots
     [[ -z "$HOME_PART" || "$HOME_PART" == "none" ]] && \
-        btrfs subvolume create /mnt/@home || true
+        btrfs subvolume create /mnt/@home
+
+    # Create "current" snapshots for boot
+    btrfs subvolume snapshot /mnt/@ /mnt/@snapshots/cur_root
+    if [[ -z "$HOME_PART" || "$HOME_PART" == "none" ]]; then
+        btrfs subvolume snapshot /mnt/@home /mnt/@snapshots/cur_home
+    fi
 
     umount /mnt
 
-    # Mount root and subvolumes
-    mount -o noatime,compress=zstd,subvol=@ "$ROOT_PART" /mnt
+    # Mount snapshots as system root and home
+    mount -o noatime,compress=zstd,subvol=@snapshots/cur_root "$ROOT_PART" /mnt
     mkdir -p /mnt/{home,.snapshots}
+
     mount -o noatime,compress=zstd,subvol=@snapshots "$ROOT_PART" /mnt/.snapshots
 
     if [[ -z "$HOME_PART" || "$HOME_PART" == "none" ]]; then
-        mount -o noatime,compress=zstd,subvol=@home "$ROOT_PART" /mnt/home
+        mount -o noatime,compress=zstd,subvol=@snapshots/cur_home "$ROOT_PART" /mnt/home
     else
         mkfs.btrfs -f "$HOME_PART"
         mount "$HOME_PART" /mnt/home
     fi
+fi
 
 else
     mkfs.ext4 -F "$ROOT_PART"
