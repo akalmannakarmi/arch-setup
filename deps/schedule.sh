@@ -1,24 +1,24 @@
 #!/bin/bash
 set -e
 
-mkdir -p ~/.config/systemd/user
-cat > ~/.config/systemd/user/post-setup.service <<EOF
-[Unit]
-Description=Post-setup script in Kitty
-After=graphical-session.target
-PartOf=graphical-session.target
+# Paths
+FLAG="$HOME/arch-setup/.post-setup-done"
+SCRIPT_PATH="$HOME/arch-setup/deps/post-setup.sh"
+AUTOSTART="$HOME/.config/hypr/autostart.conf"
 
-[Service]
-Type=oneshot
-Environment="XDG_RUNTIME_DIR=%t"
-Environment="WAYLAND_DISPLAY=wayland-1"
-ExecStart=/usr/bin/kitty --hold /home/%u/arch-setup/deps/post-setup.sh
-ExecStartPost=/usr/bin/systemctl --user disable post-setup.service
+# ===== Reset flag if it exists =====
+if [ -f "$FLAG" ]; then
+    echo "Removing old post-setup flag..."
+    rm -f "$FLAG"
+fi
 
-[Install]
-WantedBy=graphical-session.target
-EOF
+# ===== Ensure autostart.conf exists and add this script =====
+mkdir -p "$(dirname "$AUTOSTART")"
+touch "$AUTOSTART"
 
-# Reload systemd user units so it sees the new service
-systemctl --user daemon-reload
-systemctl --user enable post-setup.service
+if ! grep -Fxq "kitty --hold $SCRIPT_PATH" "$AUTOSTART"; then
+    echo "Adding post-setup script to Hyprland autostart..."
+    echo "kitty --hold $SCRIPT_PATH" >> "$AUTOSTART"
+else
+    echo "Post-setup script already in autostart"
+fi
