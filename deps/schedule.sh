@@ -10,7 +10,7 @@ Wants=hyprland-session.target
 
 [Service]
 Type=oneshot
-ExecStartPre=/bin/bash -c 'while ! pgrep -x Hyprland >/dev/null; do sleep 1; done'
+ExecStartPre=/bin/bash -c 'while ! kitty -e true >/dev/null 2>&1; do sleep 1; done'
 ExecStart=/usr/bin/kitty --hold /home/%u/arch-setup/deps/post-setup.sh
 ExecStartPost=/usr/bin/systemctl --user disable post-setup.service
 RemainAfterExit=no
