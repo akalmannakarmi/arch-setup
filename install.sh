@@ -31,7 +31,7 @@ if [[ "$FS" == "btrfs" ]]; then
 fi
 
 echo "Copying Over the setup script"
-mkdir -p "/mnt/arch-setup"
+mkdir -p "/mnt/home/$USERNAME/arch-setup"
 cp -r . "/mnt/home/$USERNAME/arch-setup"
 
 
