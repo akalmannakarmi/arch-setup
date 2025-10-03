@@ -39,6 +39,7 @@ echo "Entering installed arch Environment"
 arch-chroot /mnt /bin/bash <<EOF
 cd /home/$USERNAME/arch-setup
 ./deps/base-chroot.sh
+chown -R /home/$USERNAME $USERNAME
 EOF
 
 while true; do
