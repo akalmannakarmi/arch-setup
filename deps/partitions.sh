@@ -6,7 +6,7 @@ if [[ "$FS" == "btrfs" ]]; then
     mkfs.btrfs -f "$ROOT_PART"
 
     # Initial mount
-    mount "$ROOT_PART" /mnt
+    mount -o subvolid=5 "$ROOT_PART" /mnt
 
     # Create subvolumes
     btrfs subvolume create /mnt/@ || true
