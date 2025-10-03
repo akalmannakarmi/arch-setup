@@ -4,12 +4,14 @@ set -e
 mkdir -p ~/.config/systemd/user
 cat > ~/.config/systemd/user/post-setup.service <<EOF
 [Unit]
-Description=Run script only on first login for post setup
-After=default.target
+Description=Post-setup script in Kitty
+After=graphical-session.target
+Wants=graphical-session.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/$USER/arch-setup/deps/post-setup.sh
+ExecStart=/usr/bin/kitty --hold /home/%u/arch-setup/deps/post-setup.sh
+ExecStartPost=/usr/bin/systemctl --user disable post-setup.service
 RemainAfterExit=no
 
 [Install]
