@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+sleep 3
+
 # ===== Customize Hyde project =====
 scriptDir="$HOME/.local/lib/hyde"
 "${scriptDir}/wallbashtoggle.sh" 2

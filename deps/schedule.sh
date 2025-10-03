@@ -12,7 +12,6 @@ PartOf=graphical-session.target
 Type=oneshot
 Environment="XDG_RUNTIME_DIR=%t"
 Environment="WAYLAND_DISPLAY=wayland-1"
-ExecStartPre=/bin/sleep 3
 ExecStart=/usr/bin/kitty --hold /home/%u/arch-setup/deps/post-setup.sh
 ExecStartPost=/usr/bin/systemctl --user disable post-setup.service
 
