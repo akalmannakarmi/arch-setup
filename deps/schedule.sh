@@ -5,11 +5,12 @@ mkdir -p ~/.config/systemd/user
 cat > ~/.config/systemd/user/post-setup.service <<EOF
 [Unit]
 Description=Post-setup script in Kitty
-After=graphical-session.target
-Wants=graphical-session.target
+After=hyprland-session.target
+Wants=hyprland-session.target
 
 [Service]
 Type=oneshot
+ExecStartPre=/bin/bash -c 'while ! pgrep -x Hyprland >/dev/null; do sleep 1; done'
 ExecStart=/usr/bin/kitty --hold /home/%u/arch-setup/deps/post-setup.sh
 ExecStartPost=/usr/bin/systemctl --user disable post-setup.service
 RemainAfterExit=no
