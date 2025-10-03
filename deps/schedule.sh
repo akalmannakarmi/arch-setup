@@ -5,18 +5,18 @@ mkdir -p ~/.config/systemd/user
 cat > ~/.config/systemd/user/post-setup.service <<EOF
 [Unit]
 Description=Post-setup script in Kitty
-After=hyprland-session.target
-Wants=hyprland-session.target
+After=graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 Type=oneshot
-ExecStartPre=/bin/bash -c 'while ! kitty -e true >/dev/null 2>&1; do sleep 1; done'
+Environment="XDG_RUNTIME_DIR=%t"
+Environment="WAYLAND_DISPLAY=wayland-1"
 ExecStart=/usr/bin/kitty --hold /home/%u/arch-setup/deps/post-setup.sh
 ExecStartPost=/usr/bin/systemctl --user disable post-setup.service
-RemainAfterExit=no
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
 EOF
 
 # Reload systemd user units so it sees the new service
