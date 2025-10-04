@@ -19,17 +19,6 @@ pacstrap /mnt base linux linux-firmware nano \
     btrfs-progs sudo grub os-prober efibootmgr base-devel git --noconfirm
 genfstab -U /mnt > /mnt/etc/fstab
 
-# btrfs auto snapshots
-if [[ "$FS" == "btrfs" ]]; then
-  # --- Install snapshot script ---
-  mkdir -p /mnt/usr/local/bin
-  cp ./deps/snapshot.sh /mnt/usr/local/bin/snapshot.sh
-
-  # --- Setup cron ---
-  mkdir -p /mnt/etc/cron.d
-  cp ./deps/cron.btrfs /mnt/etc/cron.d/btrfs-snapshots
-fi
-
 echo "Copying Over the setup script"
 mkdir -p "/mnt/home/$USERNAME/arch-setup"
 cp -r . "/mnt/home/$USERNAME/arch-setup"
@@ -41,6 +30,21 @@ cd /home/$USERNAME/arch-setup
 ./deps/base-chroot.sh
 chown -R $USERNAME /home/$USERNAME 
 EOF
+
+# btrfs auto snapshots
+if [[ "$FS" == "btrfs" ]]; then
+  # --- Install snapshot script ---
+  mkdir -p /mnt/usr/local/bin
+  cp ./deps/snapshot.sh /mnt/usr/local/bin/snapshot.sh
+
+  # --- Setup cron ---
+  mkdir -p /mnt/etc/cron.d
+  cp ./deps/cron.btrfs /mnt/etc/cron.d/btrfs-snapshots
+
+  # --- Take fresh snapshots ---
+  btrfs subvolume snapshot /mnt/@snapshots/cur_root /mnt/@snapshots/fresh_root
+  btrfs subvolume snapshot /mnt/@snapshots/cur_home /mnt/@snapshots/fresh_home
+fi
 
 while true; do
     read -rp "Would you like to setup hyperland? [y/n]: " CONFIRM
