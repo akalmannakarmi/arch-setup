@@ -15,10 +15,9 @@ scriptDir="$HOME/.local/lib/hyde"
 "${scriptDir}/theme.switch.sh" -s "Tokyo Night"
 
 
-# ===== Install and Setup Conda =====
-source /home/$USER/arch-setup/deps/install-conda.sh
+# ===== Fix opera ffmpeg =====
+source /home/$USER/arch-setup/deps/fix-opera.sh
 
 touch "$FLAG"
 
-read -n1 -r -p "Post Setup Complete! Press any key to exit"
-echo
+echo "Post Setup Complete!"
