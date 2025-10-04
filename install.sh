@@ -42,8 +42,8 @@ if [[ "$FS" == "btrfs" ]]; then
   cp ./deps/cron.btrfs /mnt/etc/cron.d/btrfs-snapshots
 
   # --- Take fresh snapshots ---
-  btrfs subvolume snapshot /mnt/@snapshots/cur_root /mnt/@snapshots/fresh_root
-  btrfs subvolume snapshot /mnt/@snapshots/cur_home /mnt/@snapshots/fresh_home
+  btrfs subvolume snapshot /mnt/.snapshots/cur_root /mnt/.snapshots/fresh_root
+  btrfs subvolume snapshot /mnt/.snapshots/cur_home /mnt/.snapshots/fresh_home
 fi
 
 while true; do
