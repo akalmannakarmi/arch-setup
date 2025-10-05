@@ -10,6 +10,7 @@ readonly FIX_DIR='/tmp/opera-fix'
 readonly FFMPEG_SRC_MAIN='https://api.github.com/repos/Ld-Hagen/nwjs-ffmpeg-prebuilt/releases'
 readonly FFMPEG_SRC_ALT='https://api.github.com/repos/Ld-Hagen/fix-opera-linux-ffmpeg-widevine/releases'
 readonly FFMPEG_SO_NAME='libffmpeg.so'
+readonly OPERA_LIB_DIR='/usr/lib/opera'
 
 OPERA_VERSIONS=()
 
@@ -50,15 +51,6 @@ echo "Extracting ffmpeg..."
 unzip -o "$FIX_DIR/ffmpeg.zip" -d $FIX_DIR > /dev/null
 
 for opera in ${OPERA_VERSIONS[@]}; do
-  echo "Doing $opera"
-  EXECUTABLE=$(command -v "$opera")
-	if [[ "$ARCH_SYSTEM" == true ]]; then
-		OPERA_DIR=$(dirname $(cat $EXECUTABLE | grep exec | cut -d ' ' -f 2))
-	else
-		OPERA_DIR=$(dirname $(readlink -f $EXECUTABLE))
-	fi
-  OPERA_LIB_DIR="$OPERA_DIR/lib_extra"
-
   #Removing old libraries and preparing directories
   printf 'Removing old libraries & making directories...\n'
   ##ffmpeg
