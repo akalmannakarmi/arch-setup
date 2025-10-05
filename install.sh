@@ -46,35 +46,10 @@ if [[ "$FS" == "btrfs" ]]; then
   btrfs subvolume snapshot /mnt/.snapshots/cur_home /mnt/.snapshots/fresh_home
 fi
 
-while true; do
-    read -rp "Would you like to setup hyperland? [y/n]: " CONFIRM
-    case "$CONFIRM" in
-        [Yy]|[Yy][Ee][Ss])
-            echo "✅ Proceeding with arch hyperland setup..."
-            break
-            ;;
-        [Nn]|[Nn][Oo])
-            echo "Unmounting partitions"
-            umount -R /mnt
-            swapoff -a
-            echo "Reboot to use your arch installation"
-            exit 1
-            ;;
-        *)
-            echo "Please answer 'y' or 'n'."
-            ;;
-    esac
-done
-
-
-echo "Entering installed arch Environment"
-arch-chroot /mnt /bin/bash <<EOF
-su $USERNAME
-cd ~/arch-setup
-./setup.sh
-EOF
-
 
 echo "Unmounting partitions"
 umount -R /mnt
 swapoff -a
+
+
+echo "Installation Complete. Please Reboot!"
