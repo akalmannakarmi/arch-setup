@@ -1,42 +1,77 @@
 #!/bin/bash
 
-# Run using sudo
 if [[ $(whoami) != "root" ]]; then
-  printf 'Try to run it with sudo\n'
+	printf 'Try to run it with sudo\n'
+	exit 1
+fi
+
+#Config section
+readonly FIX_DIR='/tmp/opera-fix'
+readonly FFMPEG_SRC_MAIN='https://api.github.com/repos/Ld-Hagen/nwjs-ffmpeg-prebuilt/releases'
+readonly FFMPEG_SRC_ALT='https://api.github.com/repos/Ld-Hagen/fix-opera-linux-ffmpeg-widevine/releases'
+readonly FFMPEG_SO_NAME='libffmpeg.so'
+
+OPERA_VERSIONS=()
+
+if [ -x "$(command -v opera)" ]; then
+  OPERA_VERSIONS+=("opera")
+fi
+
+if [ -x "$(command -v opera-beta)" ]; then
+  OPERA_VERSIONS+=("opera-beta")
+fi
+
+#Getting download links
+printf 'Getting download links...\n'
+
+##ffmpeg
+readonly FFMPEG_URL_MAIN=$(curl -sL4 $FFMPEG_SRC_MAIN | jq -rS 'sort_by(.published_at) | .[-1].assets[0].browser_download_url')
+readonly FFMPEG_URL_ALT=$(curl -sL4 $FFMPEG_SRC_ALT | jq -rS 'sort_by(.published_at) | .[-1].assets[0].browser_download_url')
+[[ $(basename $FFMPEG_URL_ALT) < $(basename $FFMPEG_URL_MAIN) ]] && readonly FFMPEG_URL=$FFMPEG_URL_MAIN || readonly FFMPEG_URL=$FFMPEG_URL_ALT
+if [[ -z $FFMPEG_URL ]]; then
+  printf 'Failed to get ffmpeg download URL. Exiting...\n'
   exit 1
 fi
 
-readonly TEMP_FOLDER='/tmp/'
-readonly OPERA_FOLDER='/usr/lib/x86_64-linux-gnu/opera/'
-readonly FILE_NAME='libffmpeg.so'
-readonly BACKUP_FILE_NAME="libffmpeg.so.backup-`date +%m-%d-%y_%H%M%S`"
-readonly ZIP_FILE='.zip'
-readonly TEMP_FILE="$TEMP_FOLDER$FILE_NAME"
-readonly OPERA_BACKUP_FILE="$OPERA_FOLDER$BACKUP_FILE_NAME"
-readonly OPERA_FILE="$OPERA_FOLDER$FILE_NAME"
+#Downloading files
+printf 'Downloading files...\n'
+mkdir -p "$FIX_DIR"
+##ffmpeg
 
-readonly FFMPEG_URL=https://api.github.com/repos/Ld-Hagen/fix-opera-linux-ffmpeg-widevine/releases
+curl -L4 --progress-bar $FFMPEG_URL -o "$FIX_DIR/ffmpeg.zip"
+if [ $? -ne 0 ]; then
+  printf 'Failed to download ffmpeg. Check your internet connection or try later\n'
+  exit 1
+fi
 
-printf '\nGetting Url ...\n'
+#Extracting files
+##ffmpeg
+echo "Extracting ffmpeg..."
+unzip -o "$FIX_DIR/ffmpeg.zip" -d $FIX_DIR > /dev/null
 
-readonly OPERA_FFMPEG_URL=$(wget -qO - $FFMPEG_URL | grep browser_download_url | cut -d '"' -f 4 | grep linux-x64 | head -n 1)
+for opera in ${OPERA_VERSIONS[@]}; do
+  echo "Doing $opera"
+  EXECUTABLE=$(command -v "$opera")
+	if [[ "$ARCH_SYSTEM" == true ]]; then
+		OPERA_DIR=$(dirname $(cat $EXECUTABLE | grep exec | cut -d ' ' -f 2))
+	else
+		OPERA_DIR=$(dirname $(readlink -f $EXECUTABLE))
+	fi
+  OPERA_LIB_DIR="$OPERA_DIR/lib_extra"
 
-printf '\nDownloading ffmpeg ...\n'
+  #Removing old libraries and preparing directories
+  printf 'Removing old libraries & making directories...\n'
+  ##ffmpeg
+  rm -f "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
+  mkdir -p "$OPERA_LIB_DIR"
 
-wget $OPERA_FFMPEG_URL -O "$TEMP_FILE$ZIP_FILE"
+  #Moving libraries to its place
+  printf 'Moving libraries to their places...\n'
+  ##ffmpeg
+  cp -f "$FIX_DIR/$FFMPEG_SO_NAME" "$OPERA_LIB_DIR"
+  chmod 0644 "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
+done
 
-printf "\nUnzipping ...\n\n"
-
-unzip "$TEMP_FILE$ZIP_FILE" -d $TEMP_FILE
-
-printf "\nBackup file on $OPERA_BACKUP_FILE ...\n"
-
-mv -f "$OPERA_FOLDER/$FILE_NAME" $OPERA_BACKUP_FILE
-
-printf "\nMoving file on $OPERA_FILE ...\n"
-
-mv -f "$TEMP_FILE/$FILE_NAME" $OPERA_FILE
-
-printf '\nDeleting Temporary files ...\n'
-
-find $TEMP_FOLDER -name "*$FILE_NAME*" -delete
+#Removing temporary files
+printf 'Removing temporary files...\n'
+rm -rf "$FIX_DIR"

@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-# File that marks the script has already run
 FLAG="$HOME/arch-setup/.post-setup-done"
 
 # Exit if script has already run
@@ -11,13 +10,15 @@ fi
 
 # ===== Customize Hyde project =====
 scriptDir="$HOME/.local/lib/hyde"
-"${scriptDir}/wallbashtoggle.sh" 2
-"${scriptDir}/theme.switch.sh" -s "Tokyo Night"
+
+# Run both scripts in background, redirect output to /dev/null
+nohup "${scriptDir}/wallbashtoggle.sh" 2 >/dev/null 2>&1 &
+nohup "${scriptDir}/theme.switch.sh" -s "Tokyo Night" >/dev/null 2>&1 &
 
 
 # ===== Fix opera ffmpeg =====
-source /home/$USER/arch-setup/deps/fix-opera.sh
+sudo /home/"$USER"/arch-setup/deps/fix-opera.sh
 
+# ===== Mark complete =====
 touch "$FLAG"
-
 echo "Post Setup Complete!"
