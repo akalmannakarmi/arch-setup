@@ -9,6 +9,8 @@ set -e
 sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 
+# ===== Setup Conda =====
+sudo ln -s /opt/miniforge/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
 # # ===== Copy custom Scripts =====
 # ./deps/copy-scripts.sh
