@@ -12,8 +12,8 @@ sudo usermod -aG docker $USER
 # ===== Setup Conda =====
 sudo ln -s /opt/miniforge/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
-# # ===== Copy custom Scripts =====
-# ./deps/copy-scripts.sh
+# ===== Copy custom Scripts =====
+cp -r ./scripts/* ~/.local/bin/
 
 # # ===== Post setup =====
 ./deps/schedule.sh
